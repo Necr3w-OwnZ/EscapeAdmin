@@ -1,0 +1,404 @@
+[
+    {
+        "id": "16217de5a394fb12",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "4fe7acf4668aab65",
+        "type": "tab",
+        "label": "Flow 2",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "9aa71a7ea5e20ae9",
+        "type": "mqtt-broker",
+        "name": "apache local",
+        "broker": "192.168.1.25",
+        "port": "80",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "71168c68098dd0a0",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-dark",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#097479",
+                    "value": "#097479",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#097479",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#333333",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#0eb8c0",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#555555",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#333333",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#eeeeee",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#097479",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#333333",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey",
+                "palette": "light"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "0543fb65d88fb28e",
+        "type": "ui_tab",
+        "name": "Tab 1",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "0d71e21464f1aa26",
+        "type": "ui_group",
+        "name": "Group 1",
+        "tab": "0543fb65d88fb28e",
+        "order": 1,
+        "disp": true,
+        "width": 6
+    },
+    {
+        "id": "e1980ab9b341cdfb",
+        "type": "websocket-client",
+        "path": "http://localhost:3000/event",
+        "tls": "",
+        "wholemsg": "false",
+        "hb": "0"
+    },
+    {
+        "id": "c30cface6f1a9ecd",
+        "type": "function",
+        "z": "16217de5a394fb12",
+        "name": "Function",
+        "func": "flow.set(\"TestFlow\", true)\n\nfor(let i = 0 ; i < msg.payload.length ; i++ ){\n    if(msg.payload[i].id == msg.id){\n        if(!msg.payload[i].locked){\n            if(msg.payload[i].etat){\n                msg.payload[i].etat = false\n                msg.payload = msg.payload[i]\n                break\n            }\n            else{\n                msg.payload[i].etat = true\n                msg.payload = msg.payload[i]\n                break\n            }\n        }\n        else{\n            msg.payload = msg.payload[i]\n            break\n        }\n    }\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 500,
+        "wires": [
+            [
+                "f6822ba7e9605ff4"
+            ]
+        ]
+    },
+    {
+        "id": "05fa9f274389144d",
+        "type": "debug",
+        "z": "16217de5a394fb12",
+        "name": "Debug",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 810,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "f3a9e586d7b6d9c5",
+        "type": "watch",
+        "z": "16217de5a394fb12",
+        "name": "Watch",
+        "files": "C:\\xampp\\htdocs\\projet4 web service\\json-serveur\\status.json",
+        "recursive": "",
+        "x": 110,
+        "y": 160,
+        "wires": [
+            [
+                "d14908311e930126"
+            ]
+        ]
+    },
+    {
+        "id": "847886a4749cdc36",
+        "type": "http request",
+        "z": "16217de5a394fb12",
+        "name": "Get",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://localhost:3000/event",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 570,
+        "y": 160,
+        "wires": [
+            [
+                "05fa9f274389144d",
+                "812e2106c25ffefe"
+            ]
+        ]
+    },
+    {
+        "id": "6ae4db886c3a265a",
+        "type": "inject",
+        "z": "16217de5a394fb12",
+        "name": "004",
+        "props": [
+            {
+                "p": "id",
+                "v": "004",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 130,
+        "y": 440,
+        "wires": [
+            [
+                "938c185818d5b525"
+            ]
+        ]
+    },
+    {
+        "id": "f6822ba7e9605ff4",
+        "type": "http request",
+        "z": "16217de5a394fb12",
+        "name": "Put",
+        "method": "PUT",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://localhost:3000/event/{{{id}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 650,
+        "y": 500,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "938c185818d5b525",
+        "type": "http request",
+        "z": "16217de5a394fb12",
+        "name": "Get",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://localhost:3000/event",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 350,
+        "y": 500,
+        "wires": [
+            [
+                "c30cface6f1a9ecd"
+            ]
+        ]
+    },
+    {
+        "id": "65e3317e787385bf",
+        "type": "inject",
+        "z": "16217de5a394fb12",
+        "name": "003",
+        "props": [
+            {
+                "p": "id",
+                "v": "003",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 130,
+        "y": 500,
+        "wires": [
+            [
+                "938c185818d5b525"
+            ]
+        ]
+    },
+    {
+        "id": "1f2ad8202d995c76",
+        "type": "switch",
+        "z": "16217de5a394fb12",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "false"
+            },
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 410,
+        "y": 160,
+        "wires": [
+            [
+                "847886a4749cdc36"
+            ],
+            [
+                "05fa9f274389144d"
+            ]
+        ]
+    },
+    {
+        "id": "d14908311e930126",
+        "type": "function",
+        "z": "16217de5a394fb12",
+        "name": "",
+        "func": "test = flow.get(\"TestFlow\")||false\nmsg.payload = test\nif(test == true){\n    flow.set(\"TestFlow\", false)\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 160,
+        "wires": [
+            [
+                "1f2ad8202d995c76"
+            ]
+        ]
+    },
+    {
+        "id": "812e2106c25ffefe",
+        "type": "link out",
+        "z": "16217de5a394fb12",
+        "name": "Set",
+        "mode": "link",
+        "links": [],
+        "x": 755,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "fe589721439bfa41",
+        "type": "link in",
+        "z": "16217de5a394fb12",
+        "name": "Get",
+        "links": [],
+        "x": 255,
+        "y": 500,
+        "wires": [
+            []
+        ]
+    }
+]
